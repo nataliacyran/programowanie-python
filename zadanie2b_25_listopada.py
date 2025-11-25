@@ -1,0 +1,40 @@
+import turtle
+import math
+
+turtle.setworldcoordinates(-400,0,400,800)
+szerokosc = 600
+wysokosc_kondygnacji = 200
+szerokosc_drzwi = 50
+wysokosc_drzwi = 90
+dlugosc_dachu = 600/math.sqrt(2)
+zolw=turtle.Pen()
+zolw.speed(1)
+zolw.forward(szerokosc_drzwi)
+zolw.left(90)
+zolw.forward(wysokosc_drzwi)
+zolw.left(90)
+zolw.forward(szerokosc_drzwi)
+zolw.left(90)
+zolw.forward(wysokosc_drzwi)
+zolw.left(90)
+zolw.up()
+zolw.forward(szerokosc_drzwi)
+zolw.down()
+zolw.forward(275)
+zolw.left(90)
+zolw.forward(wysokosc_kondygnacji)
+zolw.left(45)
+zolw.forward(dlugosc_dachu)
+zolw.left(90)
+zolw.forward(dlugosc_dachu)
+zolw.left(135)
+zolw.forward(600)
+zolw.left(180)
+zolw.up()
+zolw.forward(600)
+zolw.down()
+zolw.left(90)
+zolw.forward(wysokosc_kondygnacji)
+zolw.left(90)
+zolw.forward(275)
+turtle.done()
