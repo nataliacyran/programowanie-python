@@ -31,7 +31,7 @@ opad = []
 
 for i in range(0,len(tablica[:,4])):
     temperatura.append(float(tablica[i,4]))
-    opad.append(float(tablica[i,4]))
+    opad.append(float(tablica[i,8]))
 
 temperatura = np.array(temperatura)
 opad = np.array(opad)
@@ -39,8 +39,8 @@ opad = np.array(opad)
 minimalna_temperatura = min(temperatura)
 maksymalna_temperatura = max(temperatura)
 
-print(minimalna_temperatura)
-print(maksymalna_temperatura)
+#print(minimalna_temperatura)
+#print(maksymalna_temperatura)
 
 indeks_temperatura_min = np.where(temperatura == minimalna_temperatura)
 indeks_temperatura_max = np.where(temperatura == maksymalna_temperatura)
@@ -53,6 +53,18 @@ data_max_temp = tablica[indeks_temperatura_max,2]
 lokalizacja_max_temp = tablica[indeks_temperatura_max,1]
 
 napis_temp_min = "Temperaturę minimalną wynoszącą " + str(minimalna_temperatura) + " st. C zanotowano na stacji " + str(lokalizacja_min_temp[0][0]) + " dnia " +str(data_min_temp[0][0]) + " o godzinie " + str(godzina_min_temp[0][0])
-print(napis_temp_min)
+#print(napis_temp_min)
 napis_temp_max = "Temperaturę maksymalną wynoszącą " + str(maksymalna_temperatura) + " st. C zanotowano na stacji " + str(lokalizacja_max_temp[0][0]) + " dnia " +str(data_max_temp[0][0]) + " o godzinie " + str(godzina_max_temp[0][0])
-print(napis_temp_max)
+#print(napis_temp_max)
+
+niezerowy_opad_index = np.where(opad>0)
+#print(niezerowy_opad_index)
+
+niezerowy_opad_lokalizacje = tablica[niezerowy_opad_index,1]
+niezerowy_opad_data = tablica[niezerowy_opad_index, 2]
+niezerowy_opad_godzina = tablica[niezerowy_opad_index,3]
+
+#print(niezerowy_opad_lokalizacje[0])
+
+for j in range(0,len(niezerowy_opad_lokalizacje[0])):
+    print("Opad wystąpił na stacji " + str(niezerowy_opad_lokalizacje[0][j]) + " dnia " + str(niezerowy_opad_data[0][j]) + " o godzinie " + str(niezerowy_opad_godzina[0][j]) + ".")
