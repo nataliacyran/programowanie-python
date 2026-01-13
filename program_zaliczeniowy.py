@@ -24,13 +24,14 @@ lista_stacji1 = np.array(lista_stacji)
 
 for id_stacji, stacja in lista_stacji1:
     print(id_stacji,stacja)
+print()
 
-wybrana_stacja = input("Wpisz kod wybranej stacji:")
+wybrana_stacja = input("Wpisz identyfikator wybranej stacji: ")
+print()
 
-
-if wybrana_stacja != lista_stacji:
-    haslo = input("Kod nierozpoznany.Wpisz kod poprawnej stacji: ")
-    print(haslo)
+while wybrana_stacja not in lista_stacji1[:, 0]:
+    wybrana_stacja = input("Kod nierozpoznany. Wpisz kod poprawnej stacji: ")
+    print()
 
 
 
