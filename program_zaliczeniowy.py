@@ -27,8 +27,19 @@ lista_stacji = np.array(pobierz_lista_stacji)
 
 for id_stacji, stacja in lista_stacji:
     print(id_stacji,stacja)
+print()
 
 wybrana_stacja = input("Wpisz kod wybranej stacji: ")
+
+wybrana_stacja = input("Wpisz identyfikator wybranej stacji: ")
+print()
+
+while wybrana_stacja not in lista_stacji[:, 0]:
+    wybrana_stacja = input("Kod nierozpoznany. Wpisz kod poprawnej stacji: ")
+    print()
+
+
+
 
 
 
