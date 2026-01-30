@@ -57,10 +57,11 @@ gromadzone_temperatury = []
 zaimportowane_godziny = set()
 czas_startu = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()) 
 godzina_startu = time.localtime().tm_hour
+godzina_zakonczenia = przyszla_data_struktura.tm_hour
 
 print("Rozpoczynam zbieranie danych dla stacji " + wybrany_kod)
 
-while time.time() < czas_zakonczenia:
+while True:
     aktualne_dane = pobierz_dane_synop()
     nowe_dane_pobrane = False
     
@@ -75,7 +76,7 @@ while time.time() < czas_zakonczenia:
                     gromadzone_temperatury.append(float(temp))
                     zaimportowane_godziny.add(do_tabeli)
                     print("[" + time.strftime('%H:%M:%S') + "] Nowy odczyt z godziny " + godzina_pomiaru + ":00 --> " + temp + "°C")
-                    nowe_dane_pobrane = True
+                    nowe_dane_pobrane = True 
                 else:
                     print("[" + time.strftime('%H:%M:%S') + "] Ostatnie dane są z godziny " + godzina_pomiaru + ":00 ")
                 break
@@ -84,14 +85,11 @@ while time.time() < czas_zakonczenia:
         teraz = time.localtime()
         sekundy_do_pelnej = (60 - teraz.tm_min) * 60 - teraz.tm_sec
         do_czekania = sekundy_do_pelnej + 60
+    elif nowe_dane_pobrane and int(godzina_pomiaru) == int(godzina_zakonczenia):
+        print("\n[" + time.strftime('%H:%M:%S') + "] Wszystkie dane z podanego przedziału czasowego zostały zebrane. Zbieranie danych zostało zakończone.")
+        break
     else:
         do_czekania = 300 
-
-
-
-    if time.time() + do_czekania > czas_zakonczenia:
-        print("\n[" + time.strftime('%H:%M:%S') + "] Kolejne sprawdzenie wypadłoby po czasie zakończenia. Zbieranie danych zostało zakończone.")
-        break
 
     if nowe_dane_pobrane:
         print("Dane pobrane. Następne sprawdzenie za około " + str(int(do_czekania/60)) + " min.")
@@ -105,7 +103,7 @@ if gromadzone_temperatury:
     czas_konca = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()) 
 
     wynik_tekst = "Statystyka dla stacji " + wybrany_kod + "\n"
-    wynik_tekst += "Przedział czasu: " + czas_startu + " do " + czas_konca + "\n"
+    wynik_tekst += "Przedział czasu: " + czas_startu + " do " + czas_zakonczenia + "\n"
     wynik_tekst += "Obliczona średnia temperatura: " + str(round(srednia, 2)) + "°C"
     
     with open("wyniki_statystyka.txt", "w", encoding="utf-8") as plik: 
