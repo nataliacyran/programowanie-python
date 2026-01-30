@@ -30,7 +30,7 @@ wyswietl_stacje(dane_poczatkowe)
 kody_stacji = dane_poczatkowe[:, 0]
 
 while True:
-    wybrany_kod = input("\nWpisz kod wybranej stacji: ").strip()
+    wybrany_kod = input("\nWpisz kod wybranej stacji: ")
     
     if wybrany_kod in kody_stacji:
         break 
@@ -56,6 +56,7 @@ print()
 gromadzone_temperatury = []
 zaimportowane_godziny = set()
 czas_startu = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()) 
+godzina_startu = time.localtime().tm_hour
 
 print("Rozpoczynam zbieranie danych dla stacji " + wybrany_kod)
 
@@ -70,21 +71,23 @@ while time.time() < czas_zakonczenia:
                 temp = wiersz[4]
                 data = wiersz[2]
                 do_tabeli = godzina_pomiaru + " " +  data
-                if do_tabeli not in zaimportowane_godziny:
+                if do_tabeli not in zaimportowane_godziny and int(godzina_pomiaru) >= godzina_startu:
                     gromadzone_temperatury.append(float(temp))
                     zaimportowane_godziny.add(do_tabeli)
-                    print("[" + time.strftime('%H:%M:%S') + "] Nowy odczyt z godziny " + godzina_pomiaru + ":00 -> " + temp + "°C")
+                    print("[" + time.strftime('%H:%M:%S') + "] Nowy odczyt z godziny " + godzina_pomiaru + ":00 --> " + temp + "°C")
                     nowe_dane_pobrane = True
                 else:
-                    print("[" + time.strftime('%H:%M:%S') + "] Dane z godziny " + godzina_pomiaru + ":00 już są.")
+                    print("[" + time.strftime('%H:%M:%S') + "] Ostatnie dane są z godziny " + godzina_pomiaru + ":00 ")
                 break
     
-    if nowe_dane_pobrane and int(godzina_pomiaru) == time.localtime().tm_hour:
+    if nowe_dane_pobrane and int(godzina_pomiaru)-1 == time.localtime().tm_hour:
         teraz = time.localtime()
         sekundy_do_pelnej = (60 - teraz.tm_min) * 60 - teraz.tm_sec
         do_czekania = sekundy_do_pelnej + 60
     else:
         do_czekania = 300 
+
+
 
     if time.time() + do_czekania > czas_zakonczenia:
         print("\n[" + time.strftime('%H:%M:%S') + "] Kolejne sprawdzenie wypadłoby po czasie zakończenia. Zbieranie danych zostało zakończone.")
